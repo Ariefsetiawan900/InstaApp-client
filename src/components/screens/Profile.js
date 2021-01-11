@@ -2,7 +2,7 @@ import React from "react";
 
 const Profile = () => {
   return (
-    <div style={{maxWidth:'550px', margin:'0px auto'}}>
+    <div style={{ maxWidth: "550px", margin: "0px auto" }}>
       <div
         style={{
           display: "flex",
@@ -15,6 +15,7 @@ const Profile = () => {
           <img
             style={{ width: "160px", height: "160px", borderRadius: "80px" }}
             src="https://placeimg.com/640/480/people"
+            alt="profile"
           />
         </div>
         <div>
@@ -34,12 +35,36 @@ const Profile = () => {
       </div>
 
       <div className="gallery">
-        <img className="item" src="https://placeimg.com/640/480/arch" />
-        <img className="item" src="https://placeimg.com/640/480/arch" />
-        <img className="item" src="https://placeimg.com/640/480/arch" />
-        <img className="item" src="https://placeimg.com/640/480/arch" />
-        <img className="item" src="https://placeimg.com/640/480/arch" />
-        <img className="item" src="https://placeimg.com/640/480/arch" />
+        <img
+          className="item"
+          src="https://placeimg.com/640/480/arch"
+          alt="profile"
+        />
+        <img
+          className="item"
+          src="https://placeimg.com/640/480/arch"
+          alt="profile"
+        />
+        <img
+          className="item"
+          src="https://placeimg.com/640/480/arch"
+          alt="profile"
+        />
+        <img
+          className="item"
+          src="https://placeimg.com/640/480/arch"
+          alt="profile"
+        />
+        <img
+          className="item"
+          src="https://placeimg.com/640/480/arch"
+          alt="profile"
+        />
+        <img
+          className="item"
+          src="https://placeimg.com/640/480/arch"
+          alt="profile"
+        />
       </div>
     </div>
   );

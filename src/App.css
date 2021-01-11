@@ -4,7 +4,8 @@ a {
     color: black !important;
 }
 
-.brand-logo,h2 {
+.brand-logo,
+h2 {
     font-family: 'Grand Hotel', cursive;
 }
 
@@ -24,13 +25,19 @@ a {
     box-shadow: 0 1px 0 0 rgb(8, 93, 252) !important;
 }
 
-.gallery{
+.gallery {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
-.item{
-    width: 30%; 
-    margin-bottom: 5px;
+.item {
+    width: 30%;
+    /* margin-bottom: 5px; */
+}
+
+.home-card{
+max-width: 500px;
+height: max-content;
+margin: 26px auto;
 }
