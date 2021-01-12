@@ -38,6 +38,9 @@ const Signup = () => {
           history.push("/signin");
         }
         // console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
