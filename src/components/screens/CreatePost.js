@@ -1,13 +1,48 @@
-import React, { useState } from "react";
-import {  useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import M from "materialize-css";
 
 const CreatePost = () => {
-  const history = useHistory()
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState("");
-  const [url, setUrl] = useState('')
+  const [url, setUrl] = useState("");
+
+  useEffect =
+    (() => {
+      if (url) {
+        fetch("/createpost", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+          body: JSON.stringify({
+            title,
+            body,
+            pic: url,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) {
+              M.toast({ html: data.error, classes: "#c62828 red darken-3" });
+            } else {
+              M.toast({
+                html: "create post successfully",
+                classes: "#43a047 green darken-1",
+              });
+              history.push("/");
+            }
+            // console.log(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    [url]);
 
   const postDetails = () => {
     const data = new FormData();
@@ -20,41 +55,12 @@ const CreatePost = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setUrl(data.url)
+        // console.log(data);
+        setUrl(data.url);
       })
       .catch((err) => {
         console.log(err);
       });
-
-
-      fetch("/createpost", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          body,
-          pic:url
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          
-          if (data.error) {
-            M.toast({ html: data.error, classes: "#c62828 red darken-3" });
-          } else {
-            M.toast({
-              html: "create post successfully",
-              classes: "#43a047 green darken-1",
-            });
-            history.push("/");
-          }
-          // console.log(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
   };
   return (
     <div
