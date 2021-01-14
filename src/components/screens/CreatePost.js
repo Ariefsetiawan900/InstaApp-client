@@ -9,40 +9,38 @@ const CreatePost = () => {
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
 
-  useEffect =
-    (() => {
-      if (url) {
-        fetch("/createpost", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization': "Bearer " + localStorage.getItem("jwt"),
-          },
-          body: JSON.stringify({
-            title,
-            body,
-            pic: url,
-          }),
+  useEffect(() => {
+    if (url) {
+      fetch("/createpost", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({
+          title,
+          body,
+          pic: url,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            M.toast({ html: data.error, classes: "#c62828 red darken-3" });
+          } else {
+            M.toast({
+              html: "create post successfully",
+              classes: "#43a047 green darken-1",
+            });
+            history.push("/");
+          }
+          // console.log(data);
         })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.error) {
-              M.toast({ html: data.error, classes: "#c62828 red darken-3" });
-            } else {
-              M.toast({
-                html: "create post successfully",
-                classes: "#43a047 green darken-1",
-              });
-              history.push("/");
-            }
-            // console.log(data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    },
-    [url]);
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [url]);
 
   const postDetails = () => {
     const data = new FormData();

@@ -25,7 +25,7 @@ const Routing = () => {
     } else {
       history.push("/signin");
     }
-  });
+  },[]);
   return (
     <Switch>
       <Route exact path="/">
