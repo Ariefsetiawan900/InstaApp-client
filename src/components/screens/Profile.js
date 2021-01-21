@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useEffect, useState,useContext } from "react";
+import { UserContext } from '../../App'
 
 const Profile = () => {
+  const [myPics, setPics] = useState([]);
+  const {state,dispatch} = useContext(UserContext)
+
+  useEffect(() => {
+    fetch("/mypost", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setPics(result.mypost);
+      });
+  }, []);
   return (
     <div style={{ maxWidth: "550px", margin: "0px auto" }}>
       <div
@@ -19,7 +34,7 @@ const Profile = () => {
           />
         </div>
         <div>
-          <h4>Bang Jago</h4>
+          <h4>{state?state.name:"Loading"}</h4>
           <div
             style={{
               display: "flex",
@@ -35,36 +50,9 @@ const Profile = () => {
       </div>
 
       <div className="gallery">
-        <img
-          className="item"
-          src="https://placeimg.com/640/480/arch"
-          alt="profile"
-        />
-        <img
-          className="item"
-          src="https://placeimg.com/640/480/arch"
-          alt="profile"
-        />
-        <img
-          className="item"
-          src="https://placeimg.com/640/480/arch"
-          alt="profile"
-        />
-        <img
-          className="item"
-          src="https://placeimg.com/640/480/arch"
-          alt="profile"
-        />
-        <img
-          className="item"
-          src="https://placeimg.com/640/480/arch"
-          alt="profile"
-        />
-        <img
-          className="item"
-          src="https://placeimg.com/640/480/arch"
-          alt="profile"
-        />
+        {myPics.map((item) => {
+          return <img key={`profileImg-${item._id}`} className="item" src={item.photo} alt={item.title} />;
+        })}
       </div>
     </div>
   );
