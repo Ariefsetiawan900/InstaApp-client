@@ -102,12 +102,40 @@ const Home = () => {
       });
   };
 
+  const deletePost = (postId) => {
+    fetch(`/deletepost/${postId}`, {
+      method: "delete",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        const newData = data.filter((item) => {
+          return item._id !== result._id;
+        });
+        setData(newData);
+      });
+  };
+
   return (
     <div className="home">
       {data.map((item) => {
         return (
           <div className="card home-card" key={`createPost-${item._id}`}>
-            <h5>{item.postedBy.name}</h5>
+            <h5>
+              {item.postedBy.name}{" "}
+              {item.postedBy._id == state._id && (
+                <i
+                  className="material-icons"
+                  style={{ float: "right" }}
+                  onClick={() => deletePost(item._id)}
+                >
+                  delete
+                </i>
+              )}
+            </h5>
             <div className="card-image">
               <img src={item.photo} alt="card-image" />
             </div>
@@ -118,6 +146,7 @@ const Home = () => {
               {item.likes.includes(state._id) ? (
                 <i
                   className="material-icons"
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     unLikePost(item._id);
                   }}
@@ -127,6 +156,7 @@ const Home = () => {
               ) : (
                 <i
                   className="material-icons"
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     likePost(item._id);
                   }}
@@ -134,7 +164,7 @@ const Home = () => {
                   thumb_up
                 </i>
               )}
-              {item.likes.length >= 1 && <h6>{item.likes.length} Likes</h6>}
+              {item.likes.length >= 1 && <h6>{item.likes.length} Likes </h6>}
               {/* <h6>{item.likes.length} Likes</h6> */}
 
               <h6>{item.title}</h6>
