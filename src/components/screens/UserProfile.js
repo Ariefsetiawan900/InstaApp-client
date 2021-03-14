@@ -6,7 +6,7 @@ const Profile = () => {
   const [userProfile, setProfile] = useState(null);
   const { state, dispatch } = useContext(UserContext);
   const { userid } = useParams();
-//   console.log(userid);
+  //   console.log(userid);
 
   useEffect(() => {
     fetch(`/user/${userid}`, {
@@ -20,6 +20,34 @@ const Profile = () => {
         setProfile(result);
       });
   }, []);
+
+  const followUser = () => {
+    fetch("/follow", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        followId: userid,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        dispatch({
+          type: "UPDATE",
+          payload: { following: data.following, followers: data.followers },
+        });
+        localStorage.getItem("user",JSON.stringify(data))
+        setProfile((prevState)=>{
+          return{
+            ...prevState,
+            user:data
+          }
+        })
+      });
+  };
 
   return (
     <>
@@ -55,9 +83,15 @@ const Profile = () => {
                 }}
               >
                 <h5>{userProfile.posts.length} post</h5>
-                <h5>40 followers</h5>
-                <h5>40 following</h5>
+                <h5>{userProfile.user.followers.length} followers</h5>
+                <h5>{userProfile.user.following.length} following</h5>
               </div>
+              <button
+                className="btn waves-effect waves-light #64b5f6 blue darken-1"
+                onClick={() => followUser()}
+              >
+                Follow
+              </button>
             </div>
           </div>
 
