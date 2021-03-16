@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const [userProfile, setProfile] = useState(null);
-  const [showFollow, setShowFollow] = useState(true);
   const { state, dispatch } = useContext(UserContext);
   const { userid } = useParams();
+  const [showFollow, setShowFollow] = useState(
+    state ? !state.following.includes(userid) : true
+  );
   //   console.log(userid);
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Profile = () => {
             },
           };
         });
-        setShowFollow(false)
+        setShowFollow(false);
       });
   };
 
@@ -74,16 +76,18 @@ const Profile = () => {
         });
         localStorage.getItem("user", JSON.stringify(data));
         setProfile((prevState) => {
-          const newFollower =prevState.user.followers.filter(item=>item != data._id)
+          const newFollower = prevState.user.followers.filter(
+            (item) => item != data._id
+          );
           return {
             ...prevState,
             user: {
               ...prevState.user,
-              followers: newFollower
+              followers: newFollower,
             },
           };
         });
-        setShowFollow(true)
+        setShowFollow(true);
       });
   };
 
@@ -106,7 +110,7 @@ const Profile = () => {
                   height: "160px",
                   borderRadius: "80px",
                 }}
-                src="https://placeimg.com/640/480/people"
+                src={userProfile.user.pic}
                 alt="profile"
               />
             </div>
@@ -128,7 +132,7 @@ const Profile = () => {
                 <button
                   className="btn waves-effect waves-light #64b5f6 blue darken-1"
                   onClick={() => followUser()}
-                  style={{margin:"10px"}}
+                  style={{ margin: "10px" }}
                 >
                   Follow
                 </button>
@@ -136,7 +140,7 @@ const Profile = () => {
                 <button
                   className="btn waves-effect waves-light #64b5f6 blue darken-1"
                   onClick={() => unFollowUser()}
-                  style={{margin:"10px"}}
+                  style={{ margin: "10px" }}
                 >
                   unFollow
                 </button>
