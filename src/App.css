@@ -41,6 +41,11 @@ h2 {
     /* margin-bottom: 5px; */
 }
 
+.home{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 .home-card{
 max-width: 500px;
 height: max-content;
@@ -56,3 +61,4 @@ margin: 26px auto;
 .material-icons:hover{
     cursor: pointer;
 }
+
